@@ -24,6 +24,6 @@ A C# API for creating and managing dynamic program application forms. The API su
 
 - **Create Program**: `POST /api/program`
 - **Update Program**: `PUT /api/program`
-- **Submit Program Application**: `POST /api/program/{programId}/submit`
+- **Submit Program Application**: `POST /api/program//submit`
 - **Get Program**: `GET /api/program/{formId}`
 - **Get All Programs**: `GET /api/program`
