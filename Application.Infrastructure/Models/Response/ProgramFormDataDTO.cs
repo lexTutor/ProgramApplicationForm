@@ -1,5 +1,6 @@
 ﻿using Application.Core.Entities;
 using Application.Infrastructure.Models.Common;
+using Newtonsoft.Json;
 
 namespace Application.Infrastructure.Models.Response;
 
@@ -31,7 +32,7 @@ public record ProgramFormDataDTO(
     }
 }
 
-public record ProgramFormDataSlimDTO(string Id, string ProgramTitle, string ProgramDescription)
+public record ProgramFormDataSlimDTO([JsonProperty("id")] string Id, string ProgramTitle, string ProgramDescription)
 {
     public static ProgramFormDataSlimDTO ToModel(ProgramForm entity)
 

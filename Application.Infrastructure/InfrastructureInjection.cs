@@ -1,4 +1,5 @@
 ﻿using Application.Infrastructure.Data;
+using Application.Infrastructure.Filters;
 using Application.Infrastructure.Logger;
 using Application.Infrastructure.Services;
 using Application.Infrastructure.Services.QuestionTypeManagers;
@@ -28,6 +29,7 @@ public static class InfrastructureInjection
 
         builder.Services.AddScoped(typeof(ICosmosDbRepository<>), typeof(CosmosDbRepository<>));
         builder.Services.AddScoped(typeof(ILogManager<>), typeof(LogManager<>));
+        builder.Services.AddScoped(typeof(ValidationFilter<>));
 
         builder.Services.AddScoped<IProgramFormService, ProgramFormService>();
         builder.Services.AddKeyedSingleton<IQuestionTypeManager, MultiChoiceQuestionManager>(QuestionType.MultipleChoice);

@@ -9,7 +9,7 @@ public class CosmosDbRepository<T> : ICosmosDbRepository<T> where T : BaseEntity
 
     public CosmosDbRepository(CosmosClient cosmosClient)
     {
-        Database database = cosmosClient.GetDatabase("ToDoList");
+        Database database = cosmosClient.GetDatabase("DynamicProgram");
         _container = cosmosClient.GetContainer(database.Id, typeof(T).Name);
     }
 
@@ -29,18 +29,43 @@ public class CosmosDbRepository<T> : ICosmosDbRepository<T> where T : BaseEntity
         }
     }
 
-    public async Task<IEnumerable<T>> GetItemsAsync(QueryDefinition queryDefinition)
+    public async Task<List<TSlim>> GetItemsAsync<TSlim>(QueryDefinition queryDefinition)
     {
-        var query = _container.GetItemQueryIterator<T>(queryDefinition);
-        List<T> results = [];
-        while (query.HasMoreResults)
+        try
         {
-            var response = await query.ReadNextAsync();
-            results.AddRange(response.ToList());
+            var query = _container.GetItemQueryIterator<TSlim>(queryDefinition);
+            List<TSlim> results = [];
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                results.AddRange(response.ToList());
+            }
+            return results;
         }
-        return results;
+        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return [];
+        }
     }
 
-    public async Task UpdateItemAsync(string id, T item)
-        => await _container.UpsertItemAsync(item, new PartitionKey(id));
+    public async Task<List<T>> GetItemsAsync(QueryDefinition queryDefinition)
+    {
+        try
+        {
+            var query = _container.GetItemQueryIterator<T>(queryDefinition);
+            List<T> results = [];
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                results.AddRange(response.ToList());
+            }
+            return results;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return [];
+        }
+    }
+
+    public async Task UpdateItemAsync(T item) => await _container.UpsertItemAsync(item);
 }

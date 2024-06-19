@@ -1,6 +1,8 @@
 ﻿using Application.Core.Entities;
 using Application.Infrastructure.Models.Common;
 using FluentValidation;
+using System.Reflection;
+using System.Security.Policy;
 using static Application.Infrastructure.Models.Common.FormQuestionDTO;
 
 namespace Application.Infrastructure.Models.Request;
@@ -30,7 +32,8 @@ public record UpdateProgramForm(
             RuleFor(x => x.IDNumber).NotNull();
             RuleFor(x => x.DateOfBirth).NotNull();
             RuleFor(x => x.Gender).NotNull();
-            RuleFor(x => x.Questions).NotEmpty().ChildRules(q => q.RuleFor(c => new FormQuestionDTOValidator()));
+            RuleFor(x => x.Questions).NotEmpty();
+            RuleForEach(x => x.Questions).SetValidator(new FormQuestionDTOValidator());
         }
     }
 
@@ -38,12 +41,12 @@ public record UpdateProgramForm(
     {
         programForm.ProgramTitle = ProgramTitle;
         programForm.ProgramDescription = ProgramDescription;
-        programForm.Phone = Phone.ToEntity();
-        programForm.Nationality = Nationality.ToEntity();
-        programForm.Residence = Residence.ToEntity();
-        programForm.IDNumber = IDNumber.ToEntity();
-        programForm.DateOfBirth = DateOfBirth.ToEntity();
-        programForm.Gender = Gender.ToEntity();
+        programForm.Phone = Phone?.ToEntity() ?? throw new ArgumentNullException(nameof(programForm.Phone), "Phone cannot be null.");
+        programForm.Nationality = Nationality?.ToEntity() ?? throw new ArgumentNullException(nameof(programForm.Nationality), "Nationality cannot be null.");
+        programForm.Residence = Residence?.ToEntity() ?? throw new ArgumentNullException(nameof(programForm.Residence), "Residence cannot be null.");
+        programForm.IDNumber = IDNumber?.ToEntity() ?? throw new ArgumentNullException(nameof(programForm.IDNumber), "IDNumber cannot be null.");
+        programForm.DateOfBirth = DateOfBirth?.ToEntity() ?? throw new ArgumentNullException(nameof(programForm.DateOfBirth), "DateOfBirth cannot be null.");
+        programForm.Gender = Gender?.ToEntity() ?? throw new ArgumentNullException(nameof(programForm.Gender), "Gender cannot be null.");
         programForm.Questions = Questions.Select((x, index) => x.ToEntity(index + 1)).ToList();
         return programForm;
     }

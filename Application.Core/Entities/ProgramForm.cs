@@ -11,18 +11,27 @@ public class ProgramForm : BaseEntity
        PersonalInformation nationality,
        PersonalInformation residence,
        PersonalInformation idNumber,
-       PersonalInformation dob,
+       PersonalInformation dateOfBirth,
        PersonalInformation gender,
-       List<FormQuestion> questions) : base()
+       List<FormQuestion> questions)
     {
+        if (string.IsNullOrWhiteSpace(programTitle))
+            throw new ArgumentNullException(nameof(programTitle), "Program title cannot be null or empty.");
+
+        if (string.IsNullOrWhiteSpace(programDescription))
+            throw new ArgumentNullException(nameof(programDescription), "Program description cannot be null or empty.");
+
+        if (questions == null || questions.Count == 0)
+            throw new ArgumentNullException("questions cannot be null or empty.", nameof(questions));
+        
+        Phone = phone ?? throw new ArgumentNullException(nameof(phone), "Phone cannot be null.");
+        Nationality = nationality ?? throw new ArgumentNullException(nameof(nationality), "Nationality cannot be null.");
+        Residence = residence ?? throw new ArgumentNullException(nameof(residence), "Residence cannot be null.");
+        IDNumber = idNumber ?? throw new ArgumentNullException(nameof(idNumber), "IDNumber cannot be null.");
+        DateOfBirth = dateOfBirth ?? throw new ArgumentNullException(nameof(dateOfBirth), "DateOfBirth cannot be null.");
+        Gender = gender ?? throw new ArgumentNullException(nameof(gender), "Gender cannot be null.");
         ProgramTitle = programTitle;
         ProgramDescription = programDescription;
-        Phone = phone;
-        Nationality = nationality;
-        Residence = residence;
-        IDNumber = idNumber;
-        DateOfBirth = dob;
-        Gender = gender;
         Questions = questions;
     }
 

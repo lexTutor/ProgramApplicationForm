@@ -1,4 +1,5 @@
 using Application.Infrastructure;
+using Presentation.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Logging.AddApplicationLogging();
 builder.AddInfrastructure();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<SecureHeadersMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

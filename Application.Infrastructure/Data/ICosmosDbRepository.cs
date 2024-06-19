@@ -7,6 +7,7 @@ public interface ICosmosDbRepository<T> where T : BaseEntity
 {
     Task AddItemAsync(T item);
     Task<T?> GetItemAsync(string id);
-    Task<IEnumerable<T>> GetItemsAsync(QueryDefinition queryDefinition);
-    Task UpdateItemAsync(string id, T item);
+    Task<List<T>> GetItemsAsync(QueryDefinition queryDefinition);
+    Task<List<TSlim>> GetItemsAsync<TSlim>(QueryDefinition queryDefinition);
+    Task UpdateItemAsync(T item);
 }

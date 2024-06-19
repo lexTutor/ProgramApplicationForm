@@ -2,6 +2,7 @@
 using Application.Infrastructure.Models.Common;
 using FluentValidation;
 using static Application.Infrastructure.Models.Common.FormQuestionDTO;
+using static Application.Infrastructure.Models.Common.QuestionAnswerDTO;
 
 namespace Application.Infrastructure.Models.Request;
 
@@ -28,7 +29,9 @@ public record CreateProgramForm(
             RuleFor(x => x.IDNumber).NotNull();
             RuleFor(x => x.DateOfBirth).NotNull();
             RuleFor(x => x.Gender).NotNull();
-            RuleFor(x => x.Questions).NotEmpty().ChildRules(q => q.RuleFor(c => new FormQuestionDTOValidator()));
+            RuleFor(x => x.Questions).NotEmpty();
+            RuleForEach(x => x.Questions).SetValidator(new FormQuestionDTOValidator());
+
         }
     }
 
@@ -37,12 +40,12 @@ public record CreateProgramForm(
         return new(
             ProgramTitle,
             ProgramDescription,
-            Phone.ToEntity(),
-            Nationality.ToEntity(),
-            Residence.ToEntity(),
-            IDNumber.ToEntity(),
-            DateOfBirth.ToEntity(),
-            Gender.ToEntity(),
-            Questions.Select((x, index) => x.ToEntity(index + 1)).ToList());
+            Phone?.ToEntity(),
+            Nationality?.ToEntity(),
+            Residence?.ToEntity(),
+            IDNumber?.ToEntity(),
+            DateOfBirth?.ToEntity(),
+            Gender?.ToEntity(),
+            Questions?.Select((x, index) => x.ToEntity(index + 1)).ToList());
     }
 }

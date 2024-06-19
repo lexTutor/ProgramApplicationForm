@@ -21,7 +21,7 @@ public record CreateProgramFormSubmission(
     public ProgramFormSubmission ToEntity()
         => new(ApplicationFormId, FirstName, LastName, Email,
             Phone, Nationality, Residence, IDNumber, Gender, DateOfBirth,
-            QuestionAnswers.Select(x => x.ToEntity()).ToList());
+            QuestionAnswers?.Select(x => x?.ToEntity()).ToList());
 
     public class ApplicationFormSubmissionDTOValidator : AbstractValidator<CreateProgramFormSubmission>
     {
@@ -31,7 +31,8 @@ public record CreateProgramFormSubmission(
             RuleFor(x => x.FirstName).NotEmpty();
             RuleFor(x => x.LastName).NotEmpty();
             RuleFor(x => x.Email).EmailAddress();
-            RuleFor(x => x.QuestionAnswers).NotEmpty().ChildRules(q => q.RuleFor(c => new QuestionAnswerDTOValidator()));
+            RuleFor(x => x.QuestionAnswers).NotEmpty();
+            RuleForEach(x => x.QuestionAnswers).SetValidator(new QuestionAnswerDTOValidator());
         }
     }
 }
