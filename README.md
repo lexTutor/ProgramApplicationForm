@@ -62,7 +62,6 @@ The ProgramApplicationForm is built using the following technologies:
       },
       "Questions": [
           {
-              "Id": 0,
               "QuestionText": "Please provide a short bio:",
               "MaximumChoices": 0,
               "IsOtherOptionEnabled": false,
@@ -70,7 +69,6 @@ The ProgramApplicationForm is built using the following technologies:
               "QuestionType": 0
           },
           {
-              "Id": 1,
               "QuestionText": "Do you have pets?",
               "MaximumChoices": 0,
               "IsOtherOptionEnabled": false,
@@ -78,7 +76,6 @@ The ProgramApplicationForm is built using the following technologies:
               "QuestionType": 1
           },
           {
-              "Id": 2,
               "QuestionText": "What is your favorite color?",
               "MaximumChoices": 1,
               "IsOtherOptionEnabled": true,
@@ -86,7 +83,6 @@ The ProgramApplicationForm is built using the following technologies:
               "QuestionType": 2
           },
           {
-              "Id": 3,
               "QuestionText": "Which animal do you prefer?",
               "MaximumChoices": 1,
               "IsOtherOptionEnabled": false,
@@ -94,7 +90,6 @@ The ProgramApplicationForm is built using the following technologies:
               "QuestionType": 3
           },
           {
-              "Id": 4,
               "QuestionText": "Please select your birth date:",
               "MaximumChoices": 0,
               "IsOtherOptionEnabled": false,
@@ -102,7 +97,6 @@ The ProgramApplicationForm is built using the following technologies:
               "QuestionType": 4
           },
           {
-              "Id": 5,
               "QuestionText": "How many siblings do you have?",
               "MaximumChoices": 0,
               "IsOtherOptionEnabled": false,
@@ -113,6 +107,89 @@ The ProgramApplicationForm is built using the following technologies:
   }
   ```
 
+- **Update Program**: `PUT /api/program`
+  Sample Payload:
+  ```json
+  {
+      "id":"", //Id of the resource to be updates
+      "ProgramTitle": "My Program",
+      "ProgramDescription": "This is a description of my program.",
+      "FirstName": "John",
+      "LastName": "Doe",
+      "Email": "johndoe@example.com",
+      "Phone": {
+          "IsInternalUseOnly": true,
+          "IsHiddenFromDisplay": false
+      },
+      "Nationality": {
+          "Value": null,
+          "IsInternalUseOnly": true,
+          "IsHiddenFromDisplay": true
+      },
+      "Residence": {
+          "IsInternalUseOnly": true,
+          "IsHiddenFromDisplay": true
+      },
+      "IDNumber": {
+          "IsInternalUseOnly": true,
+          "IsHiddenFromDisplay": true
+      },
+      "DateOfBirth": {
+          "IsInternalUseOnly": true,
+          "IsHiddenFromDisplay": true
+      },
+      "Gender": {
+          "IsInternalUseOnly": true,
+          "IsHiddenFromDisplay": false
+      },
+      "Questions": [
+          {
+              "QuestionText": "Please provide a short bio:",
+              "MaximumChoices": 0,
+              "IsOtherOptionEnabled": false,
+              "Options": [],
+              "QuestionType": 0
+          },
+          {
+              "QuestionText": "Do you have pets?",
+              "MaximumChoices": 0,
+              "IsOtherOptionEnabled": false,
+              "Options": [],
+              "QuestionType": 1
+          },
+          {
+              "QuestionText": "What is your favorite color?",
+              "MaximumChoices": 1,
+              "IsOtherOptionEnabled": true,
+              "Options": ["Red", "Blue", "Green"],
+              "QuestionType": 2
+          },
+          {
+              "QuestionText": "Which animal do you prefer?",
+              "MaximumChoices": 1,
+              "IsOtherOptionEnabled": false,
+              "Options": ["Cats", "Dogs"],
+              "QuestionType": 3
+          },
+          {
+              "QuestionText": "Please select your birth date:",
+              "MaximumChoices": 0,
+              "IsOtherOptionEnabled": false,
+              "Options": [],
+              "QuestionType": 4
+          },
+          {
+              "QuestionText": "How many siblings do you have?",
+              "MaximumChoices": 0,
+              "IsOtherOptionEnabled": false,
+              "Options": [],
+              "QuestionType": 5
+          }
+      ]
+  }
+  ```
+  ```
+  
 - **Submit Program Application**: `POST /api/program/submit`
 
   Sample Payload:
@@ -167,9 +244,7 @@ The ProgramApplicationForm is built using the following technologies:
       "dateOfBirth": null,
       "gender": "Male"
   }
-  ```
-
-- **Update Program**: `PUT /api/program`
+  ```  
 
 - **Get Program**: `GET /api/program/{formId}`
 
