@@ -94,7 +94,7 @@ public class ProgramFormService(
 
     public async Task<BaseResponse<string>> SubmitApplication(CreateProgramFormSubmission request)
     {
-        var program = await programFormRepository.GetItemAsync(request.ApplicationFormId);
+        var program = await programFormRepository.GetItemAsync(request.ProgramFormId);
 
         if (program is null)
             return BaseResponse<string>.Fail(InvalidProgramError);
